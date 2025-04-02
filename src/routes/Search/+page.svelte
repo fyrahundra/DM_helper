@@ -1,37 +1,70 @@
 <script>
-    let test = []
+	import { error } from "@sveltejs/kit";
+	import { onMount } from "svelte";
+
     let currentPage = 0
 
-    for(let i = 0; i <= 100; i++){
-        test.push(i)
-        test = test
-    }
+    let items = []
+
+    onMount(() => {
+        getInfo("spells")
+    })
 
     function page(){
-        let filter = []
+        let filter1 = []
         let result = []
-        for(let j = 1; j <= test.length; j++){
-            filter.push(test[j])
-            filter = filter
-            if(j%5 == 0){
-                result.push(filter)
+        let filter2 = []
+        for(let j = 1; j <= items.length; j++){
+            filter1.push(items[j-1])
+            filter1 = filter1
+            if(j%24 == 0){
+                result.push(filter1)
                 result = result
-                filter = []
+                filter1 = []
+            }
+            else if(j >= 312){
+                filter2.push(items[j-1])
             }
         }
-        test = result
-        console.log(test)
+        result.push(filter2)
+        result = result
+        filter2 = []
+        items = [...result]
     }
-    function changePage(){
-        if(currentPage > 20){
-            currentPage = 20
+
+    async function getInfo(target) {
+        const respons = await fetch("https://www.dnd5eapi.co/api/" + target)
+
+        if(respons.status != 200){
+            throw error(respons.status, {message: respons.statusText})
         }
-        if(currentPage < 0){
+
+        const data = await respons.json()
+
+        items = Array.isArray(data.results)? [...data.results] : []
+
+        page()
+    }
+
+    function spellInfo(target){
+        return null
+    }
+
+//temp funktioner
+    function add(){
+        currentPage += 1
+
+        if (currentPage < 0){
             currentPage = 0
         }
     }
-    
-    page()
+    function sub(){
+        currentPage -= 1
+        if (currentPage < 0){
+            currentPage = 0
+        }
+    }
+
 
 </script>
 
@@ -39,12 +72,18 @@
 
 <main>
     <h1>Monsters and Spells</h1>
-    <input type="number" on:click={changePage} bind:value={currentPage}>
+    
     <div class="grid">
-            {#each test[currentPage] as item}
-                <p>{item}</p>
-            {/each}
+            {#if items[currentPage]}
+                {#each items[currentPage] as item}
+                    <button on:mousedown={spellInfo(item)} class="item">{item.name}</button>
+                {/each}
+            {/if}
+            
     </div>
+    <button on:click={add}>+</button>
+    <button on:click={sub}>-</button>
+    
 </main>
 
 <style>
@@ -75,25 +114,31 @@
         justify-content: center;
     }
 
-    .grid{
+    .item{
+        font-weight: 600;
+    }
+
+    
+    .grid {
         display: grid;
-
-        justify-content: center;
-
-        overflow: hidden;
+        
+        width: 100%;
+        min-height: auto;
+        height: 75%;
 
         margin-top: 10%;
 
-        width: 100%;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: minmax(50px, auto);
 
-        grid-template-columns: repeat(3,1fr);
-        grid-template-rows: repeat(5,1fr);
-
-        grid-auto-rows: 0;
-
-        row-gap: 0.5%;
+        row-gap: 10%;
         column-gap: 2.5%;
 
         text-align: center;
     }
+
+    .grid > * {
+        max-height: 100%;
+    }
+
 </style>

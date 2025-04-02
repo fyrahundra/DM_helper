@@ -19,7 +19,6 @@
 
 <style>
     main{
-
         position: relative;
 
         z-index:1;

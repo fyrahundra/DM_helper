@@ -53,13 +53,13 @@
 <img class="book" src="https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvcHgxMDU3NDA0LWltYWdlLWpvYjYzMC1mLWwwZzA3N2l6LmpwZw.jpg" alt="">
 
 <style>
-	:global(body), :global(html){
+	/*:global(body), :global(html){
 		overflow: hidden;
 		margin: 0;
 		padding: 0;
 		height: 100%;
 		width: 100%;
-	}
+	}*/
 
 	.book{
 		height: 100vh;
