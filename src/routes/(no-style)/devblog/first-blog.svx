@@ -9,7 +9,7 @@ date: "2025-04-09"
 
 It is usually really hard for me to come up with ideas or start with a project. However this time around I already knew what I wanted to make since I had found it to be something I "needed" in my life.
 So having made up my mind on what to make and how to prioritise the different parts, I started with the page that would help with searching for different dnd 5e monsters and spells.
-For the most part I did this work myself, except for for example how to make the svg I wanted (https://stackoverflow.com/questions/10177985/svg-rounded-corner), but when I needed help and could not easily find it on the intenet I would ask chatGPT for help.
+For the most part I did this work myself, except for for example how to make the svg I wanted (https://stackoverflow.com/questions/10177985/svg-rounded-corner), but when I needed help and could not easily find it on the internet I would ask chatGPT for help.
 
 ## Changes
 
