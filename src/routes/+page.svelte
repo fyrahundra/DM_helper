@@ -13,6 +13,8 @@
             <a href="{base}/NPC"><span>NPC-generator</span></a>
     
             <a href="{base}/Notes"> <span>Notes</span></a>
+
+            <a href="{base}/devblog"><span>Devblog</span></a>
         </section>
     </div>
 </main>

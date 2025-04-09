@@ -6,16 +6,19 @@
 
     let items = []
 
+    let selector = "spells"
+
     onMount(() => {
-        getInfo("spells")
+        items = getInfo(selector)
+        console.log("Result:", items)
     })
 
-    function page(){
+    function page(array){
         let filter1 = []
         let result = []
         let filter2 = []
-        for(let j = 1; j <= items.length; j++){
-            filter1.push(items[j-1])
+        for(let j = 1; j <= array.length; j++){
+            filter1.push(array[j-1])
             filter1 = filter1
             if(j%24 == 0){
                 result.push(filter1)
@@ -23,38 +26,48 @@
                 filter1 = []
             }
             else if(j >= 312){
-                filter2.push(items[j-1])
+                filter2.push(array[j-1])
             }
         }
         result.push(filter2)
         result = result
         filter2 = []
-        items = [...result]
+        array = [...result]
     }
 
     async function getInfo(target) {
-        const respons = await fetch("https://www.dnd5eapi.co/api/" + target)
+        const respons = await fetch("https://www.dnd5eapi.co/api/2014/" + target)
 
         if(respons.status != 200){
             throw error(respons.status, {message: respons.statusText})
         }
 
         const data = await respons.json()
+        console.log("Fetched data:", data)
+        console.log("Fetched .result:", data.results)
 
-        items = Array.isArray(data.results)? [...data.results] : []
+        if(Array.isArray(data.results)){
+            return[...data.results]
+        } else if(data){
+            return[data]
+        } else{
+            return[]
+        }
 
-        page()
+        //items = Array.isArray(data.results)? [...data.results] : data
     }
 
-    function spellInfo(target){
-        return null
+    async function spellInfo(target){
+        await getInfo(selector + "/" + target.index)
     }
 
 //temp funktioner
     function add(){
         currentPage += 1
-
-        if (currentPage < 0){
+        if(currentPage+1 > items.length){
+            currentPage = items.length-1
+        }
+        if(currentPage < 0){
             currentPage = 0
         }
     }
@@ -64,25 +77,40 @@
             currentPage = 0
         }
     }
-
-
 </script>
 
 
 
 <main>
-    <h1>Monsters and Spells</h1>
+    <h1 class="header">Monsters and Spells</h1>
     
-    <div class="grid">
+    <section class="container">
+        <button on:mousedown={() => 
+        {   
+            if(selector == "spells"){
+                selector = "monsters"
+            }
+            else if(selector == "monsters"){
+                selector = "spells"
+            }
+            getInfo(selector)
+        }
+        }>
+            {selector}
+        </button>
+        <div class="grid">
             {#if items[currentPage]}
                 {#each items[currentPage] as item}
                     <button on:mousedown={spellInfo(item)} class="item">{item.name}</button>
                 {/each}
             {/if}
-            
-    </div>
-    <button on:click={add}>+</button>
-    <button on:click={sub}>-</button>
+        </div>
+        <div class="turn">
+            <button on:click={sub}>←</button>
+            <p>{currentPage+1}/{items.length}</p>
+            <button on:click={add}>→</button>
+        </div>
+    </section>
     
 </main>
 
@@ -98,7 +126,7 @@
         color: black;
     }
 
-    h1{
+    .header{
         display: flex;
 
         justify-content: center;
@@ -108,11 +136,16 @@
         font-size: 350%;
     }
 
-    div{
+    .container{
         display: flex;
 
-        justify-content: center;
+        flex-direction: column;
+
+        width: 100%;
+        height: 100%;
     }
+
+
 
     .item{
         font-weight: 600;
@@ -126,12 +159,12 @@
         min-height: auto;
         height: 75%;
 
-        margin-top: 10%;
+        margin-top: 5%;
 
         grid-template-columns: repeat(4, 1fr);
         grid-auto-rows: minmax(50px, auto);
 
-        row-gap: 10%;
+        row-gap: 5%;
         column-gap: 2.5%;
 
         text-align: center;
@@ -141,4 +174,10 @@
         max-height: 100%;
     }
 
+    .turn{
+        display: flex;
+        justify-content: space-around;
+        font-size: large;
+        font-weight: bold;
+    }
 </style>
