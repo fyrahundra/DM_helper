@@ -12,6 +12,9 @@
 
     let descReveal = false
 
+    // a är en temporär variabel för kort animationen
+    let a = false
+
     onMount(() => {
         const fetchData = async () => {
             items = await getInfo(selector)
@@ -69,6 +72,7 @@
         info = await getInfo(selector + "/" + target.index)
         console.log(info)
         descReveal = false
+        a = true
     }
 
     function add(){
@@ -128,8 +132,8 @@
         </div>
     </section>
     
-    <section class="page">
-        <article class="info">
+    <section class={a?"page":""}>
+        <article class={a?"info":""}>
             {#if (info)}
                 {#each info as target}
                 <!--Lägg in informationen för monstret/spellen-->
@@ -186,6 +190,10 @@
 		border-radius: 10px;
 		border: solid black 1px;
         background-color: white;
+
+        animation-name: dropCard;
+        animation-duration: 250ms;
+        animation-timing-function:linear;
 	}
 
     .info{
@@ -243,4 +251,12 @@
         font-size: large;
         font-weight: bold;
     }
+
+    /*Animationer*/
+
+    @keyframes dropCard{
+        0%{transform: scale(5.0);}
+        100%{transform: scale(1.0)}
+    }
+
 </style>
