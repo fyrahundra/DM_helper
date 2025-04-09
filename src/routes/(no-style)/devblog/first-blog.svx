@@ -29,7 +29,7 @@ The following changes and implementations have been made in this version of the 
 <hr>
 <br>
 
-Commit: <a href="https://github.com/fyrahundra/DM_helper/commit/1b6bd74" target="_blank">Version 0.0.2</a>
+Commit: <a href="https://github.com/fyrahundra/DM_helper/commit/89d04b4" target="_blank">Version 0.0.2</a>
 
 Published: 2025-04-09
 
