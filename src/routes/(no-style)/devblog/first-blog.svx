@@ -1,0 +1,35 @@
+---
+title: Version 0.0.2
+date: "2025-04-09"
+---
+
+# Hello 🙋‍♂️
+
+## Description
+
+It is usually really hard for me to come up with ideas or start with a project. However this time around I already knew what I wanted to make since I had found it to be something I "needed" in my life.
+So having made up my mind on what to make and how to prioritise the diffrent parts, I started with the page that would help with searching for diffrent dnd 5e monsters and spells.
+For the most part I did this work myself, except for for example how to make the svg I wanted (https://stackoverflow.com/questions/10177985/svg-rounded-corner), but when I needed help and could not easaly find it on the intenet I would ask chatGPT for help.
+
+## Changes
+
+The following changes and implementations have been made in this version of the project:
+
+* The fetch function for spells and monsters. (https://www.dnd5eapi.co) 
+    * Button to switch between spells and monster and the logic behind it.
+* The generall structuring and styling for the layout and the search page (spells and monsters).
+* Nested array for the fetched results made in order to use a custom alternative to overfill-y: scroll;.
+
+## Features
+
+✅ API for search page.
+
+✅ Details for selected monster or spell.
+
+<hr>
+<br>
+
+Commit: <a href="https://github.com/fyrahundra/DM_helper/commit/1b6bd74" target="_blank">Version 0.0.2</a>
+
+Published: 2025-04-09
+
