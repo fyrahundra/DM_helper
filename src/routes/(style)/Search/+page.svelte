@@ -8,9 +8,18 @@
 
     let selector = "spells"
 
+    let info
+
+    let descReveal = false
+
     onMount(() => {
-        items = getInfo(selector)
-        console.log("Result:", items)
+        const fetchData = async () => {
+            items = await getInfo(selector)
+            console.log("Result:", items)
+            page(items)
+        }
+
+        fetchData()
     })
 
     function page(array){
@@ -32,7 +41,8 @@
         result.push(filter2)
         result = result
         filter2 = []
-        array = [...result]
+        items = [...result]
+        console.log(items)
     }
 
     async function getInfo(target) {
@@ -53,15 +63,14 @@
         } else{
             return[]
         }
-
-        //items = Array.isArray(data.results)? [...data.results] : data
     }
 
     async function spellInfo(target){
-        await getInfo(selector + "/" + target.index)
+        info = await getInfo(selector + "/" + target.index)
+        console.log(info)
+        descReveal = false
     }
 
-//temp funktioner
     function add(){
         currentPage += 1
         if(currentPage+1 > items.length){
@@ -93,17 +102,24 @@
             else if(selector == "monsters"){
                 selector = "spells"
             }
-            getInfo(selector)
-        }
+            const fetchData = async () => {
+                items = await getInfo(selector)
+                console.log("Result:", items)
+                page(items)
+            }
+
+            fetchData()
+            }
         }>
             {selector}
         </button>
         <div class="grid">
-            {#if items[currentPage]}
-                {#each items[currentPage] as item}
-                    <button on:mousedown={spellInfo(item)} class="item">{item.name}</button>
-                {/each}
-            {/if}
+                {#if items[currentPage]}
+                    {#each items[currentPage] as item}
+                        <button on:mousedown={() => spellInfo(item)} class="item">{item.name}</button>
+                    {/each}
+                {/if} 
+
         </div>
         <div class="turn">
             <button on:click={sub}>←</button>
@@ -112,6 +128,25 @@
         </div>
     </section>
     
+    <section class="page">
+        <article class="info">
+            {#if (info)}
+                {#each info as target}
+                <!--Lägg in informationen för monstret/spellen-->
+                    <h2>{target.name}</h2>
+                    <br>
+                    <h3>Duration: {target.duration}</h3>
+                    <br>
+                    <h3>Cast time: {target.casting_time}</h3>
+                    <br>
+                    <h3>Description:</h3>
+                    <p><button on:click={() => {
+                        descReveal = !descReveal
+                    }}>{descReveal?target.desc:"..."}</button></p>
+                {/each}
+            {/if}
+        </article>
+    </section>
 </main>
 
 <style>
@@ -136,6 +171,32 @@
         font-size: 350%;
     }
 
+    .page{
+        max-height: 75%;
+		height: 65%;
+		width: 50%;
+
+		top: 15%;
+		left: 125%;
+
+        rotate: -5deg;
+
+		position: absolute;
+
+		border-radius: 10px;
+		border: solid black 1px;
+        background-color: white;
+	}
+
+    .info{
+        text-align: center; 
+        position:absolute; 
+        top:0; 
+        width:100%; 
+        height:100%;
+        overflow-y: scroll;
+    }
+
     .container{
         display: flex;
 
@@ -144,8 +205,6 @@
         width: 100%;
         height: 100%;
     }
-
-
 
     .item{
         font-weight: 600;
@@ -172,6 +231,10 @@
 
     .grid > * {
         max-height: 100%;
+    }
+
+    .info > *{
+        width: 100%;
     }
 
     .turn{

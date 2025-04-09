@@ -1,6 +1,6 @@
 <script>
 	import { base } from '$app/paths';
-	import '../app.postcss';
+	import '../../app.postcss';
 
 	// Highlight JS
 	import hljs from 'highlight.js/lib/core';
@@ -52,6 +52,7 @@
 <img class="book" style="left: 0.4%;" src="https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvcHgxMDU3NDA0LWltYWdlLWpvYjYzMC1mLWwwZzA3N2l6LmpwZw.jpg" alt="">
 <img class="book" src="https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvcHgxMDU3NDA0LWltYWdlLWpvYjYzMC1mLWwwZzA3N2l6LmpwZw.jpg" alt="">
 
+
 <style>
 	:global(body), :global(html){
 		overflow: hidden;
@@ -70,7 +71,7 @@
 
 		position: absolute;
 
-		border-radius: 0px 10px 10px;
+		border-radius: 0px 10px 10px 0px;
 		border: solid black 1px;
 	}
 
