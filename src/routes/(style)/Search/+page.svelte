@@ -14,6 +14,8 @@
 
     // a är en temporär variabel för kort animationen
     let a = false
+    let check = ""
+    let b = "-"
 
     onMount(() => {
         const fetchData = async () => {
@@ -72,7 +74,23 @@
         info = await getInfo(selector + "/" + target.index)
         console.log(info)
         descReveal = false
-        a = true
+
+        if(Math.random() > 0.5){
+            b = ""
+        } else{
+            b = "-"
+        }
+        
+        if(target.name != check || check == ""){
+            a = false
+            setTimeout(function(){
+                a = true
+            }, 10)
+            console.log("played")
+        }
+        
+        
+        check = target.name
     }
 
     function add(){
@@ -132,7 +150,7 @@
         </div>
     </section>
     
-    <section class={a?"page":""}>
+    <section class={a?"page":""} style="rotate: {b}{Math.random()*5}deg;">
         <article class={a?"info":""}>
             {#if (info)}
                 {#each info as target}
@@ -183,13 +201,11 @@
 		top: 15%;
 		left: 125%;
 
-        rotate: -5deg;
-
 		position: absolute;
 
 		border-radius: 10px;
 		border: solid black 1px;
-        background-color: white;
+        background-color: whitesmoke;
 
         animation-name: dropCard;
         animation-duration: 250ms;
