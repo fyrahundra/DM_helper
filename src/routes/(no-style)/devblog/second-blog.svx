@@ -1,5 +1,5 @@
 ---
-title: Version 0.0.16
+title: Version 0.0.18
 date: "2025-05-07"
 ---
 
@@ -34,7 +34,7 @@ The following changes and implementations have been made in this version of the 
 <hr>
 <br>
 
-Commit: <a href="https://github.com/fyrahundra/DM_helper/commit/89d04b4" target="_blank">Version 0.0.3</a>
+Commit: <a href="https://github.com/fyrahundra/DM_helper/commit/c7ff9e7" target="_blank">Version 0.0.18</a>
 
 Published: 2025-05-07
 
