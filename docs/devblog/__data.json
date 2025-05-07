@@ -1,1 +1,1 @@
-{"type":"data","nodes":[null,{"type":"data","data":[{"posts":1},[2,6],{"slug":3,"title":4,"date":5},"first-blog","Version 0.0.2","2025-04-09",{"slug":7,"title":8,"date":9},"hello-world","Hello World","2025-04-01"],"uses":{}}]}
+{"type":"data","nodes":[null,{"type":"data","data":[{"posts":1},[2,6,10],{"slug":3,"title":4,"date":5},"second-blog","Version 0.0.16","2025-05-07",{"slug":7,"title":8,"date":9},"first-blog","Version 0.0.2","2025-04-09",{"slug":11,"title":12,"date":13},"hello-world","Hello World","2025-04-01"],"uses":{}}]}

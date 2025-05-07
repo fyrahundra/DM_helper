@@ -1,0 +1,40 @@
+---
+title: Version 0.0.16
+date: "2025-05-07"
+---
+
+# Hello Again 🙋‍♂️
+
+## Description
+
+Since last time I have done a lot of work. I have completed most of the work for the notes and search pages and have begun working on the NPC-generator. 
+For the most part I have worked on my own however, like before, I have used ChatGPT when I have been completly lost and not gotten help from my internet searches.
+I am really hopeful that I will be able to complete this project but am aware that I might have to sacrifice some of the more complex functionality.
+
+## Changes
+
+The following changes and implementations have been made in this version of the project:
+
+* The search page is complete (might add some things later but all the functionality is there).
+    * It is possible to filter the monsters and spells from a pop-up menu.
+    * Clicking a spell or monster makes a "card" appear with some information on it.
+* The note page is also complete, however there is still some functionality I would like to add.
+* Work on the NPC-generator has started and some functionality had been implemented however there is much left.
+
+## New Features
+
+✅ Possiblety to save and load notes in the note page + the abillity to write notes (textarea)
+
+✅ Animation for the "card" in the search page
+
+✅ Randomized stats for the NPC in the NPC-generator
+
+✅ Implemented API for the NPC-generator for future features
+
+<hr>
+<br>
+
+Commit: <a href="https://github.com/fyrahundra/DM_helper/commit/89d04b4" target="_blank">Version 0.0.3</a>
+
+Published: 2025-05-07
+

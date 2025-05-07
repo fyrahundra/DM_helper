@@ -20,7 +20,7 @@ The following changes and implementations have been made in this version of the 
 * The generall structuring and styling for the layout and the search page (spells and monsters).
 * Nested array for the fetched results made in order to use a custom alternative to overfill-y: scroll;.
 
-## Features
+## New Features
 
 ✅ API for search page.
 
