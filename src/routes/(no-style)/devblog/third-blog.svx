@@ -1,6 +1,6 @@
 ---
 title: Version 0.0.20
-date: "2025-05-07"
+date: "2025-05-14"
 ---
 
 # Hello Again 🖐
@@ -30,7 +30,7 @@ The following changes and implementations have been made in this version of the 
 <hr>
 <br>
 
-Commit: <a href="https://github.com/fyrahundra/DM_helper/commit/c7ff9e7" target="_blank">Version 0.0.18</a>
+Commit: <a href="https://github.com/fyrahundra/DM_helper/commit/8977215" target="_blank">Version 0.0.20</a>
 
-Published: 2025-05-07
+Published: 2025-05-14
 
