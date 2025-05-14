@@ -1,6 +1,12 @@
 <script>
 	import { onMount } from "svelte";
 
+    import { dndNames } from '$lib/data/dndNames.js';    //Alla namn är framtagna med hjälp av ChatGPT
+
+    let fullName = ""
+
+    let visible = "none"
+
     let rolls = []
     let highRoll
     let mod = 0
@@ -11,12 +17,45 @@
     let races = []
     let classes = []
 
+    let chosenRaces = []
+    let chosenClasses = []
+
+    let rRace //The randomized race
+    let rClass //The randomized class
+
+    let raceFetch = []
+    let classFetch = []
+
     const ability = ["Str", "Dex", "Con", "Int", "Wis", "Cha"] 
+
+    const pictures = {
+        "Dragonborn" : "https://www.dndbeyond.com/avatars/thumbnails/6/340/420/618/636272677995471928.png",
+        "Gnome": "https://www.dndbeyond.com/avatars/thumbnails/6/334/420/618/636272671553055253.png",
+        'Dwarf': "https://www.dndbeyond.com/avatars/thumbnails/6/254/420/618/636271781394265550.png", 
+        "Elf" : "https://www.dndbeyond.com/avatars/thumbnails/7/639/420/618/636287075350739045.png",
+        "Half-Elf": "https://www.dndbeyond.com/avatars/thumbnails/6/481/420/618/636274618102950794.png", 
+        "Half-Orc": "https://www.dndbeyond.com/avatars/thumbnails/6/466/420/618/636274570630462055.png",
+        "Halfling": "https://www.dndbeyond.com/avatars/thumbnails/6/256/420/618/636271789409776659.png",
+        "Human": "https://www.dndbeyond.com/avatars/thumbnails/6/258/420/618/636271801914013762.png",
+        "Tiefling": "https://www.dndbeyond.com/avatars/thumbnails/7/641/420/618/636287076637981942.png",
+    }
 
     onMount(()=>{
         const fetchData = async()=> {
             races = await getInfo("races")
             classes = await getInfo("classes")
+
+            randomRace()
+            randomClass()
+            randomName()
+            
+            raceFetch = await getInfo("races/"+rRace.index)
+            console.log("Info for race:", raceFetch)
+            console.log("Speed =", raceFetch[0].speed)
+
+            classFetch = await getInfo("classes/"+rClass.index)
+            console.log("Info for class:", classFetch)
+            console.log("Hit die =", classFetch[0].hit_die)
 
             console.log("Races:", races, "\nClasses", classes)
         }
@@ -64,6 +103,7 @@
                 console.log(rolls)
             }
             abilityScr.push({stat: ability[l], score: sum})
+            abilityScr = abilityScr
             sum = 0
             rolls = []
         }
@@ -105,57 +145,160 @@
             }
             console.log(mod)
             abilityMod.push({stat: score.stat, score: mod})
+            abilityMod = abilityMod
             console.log("Mod:", abilityMod)
         })
     }
 
     function randomRace(){
-        
+        if(!chosenRaces[0]){
+            rRace = races[Math.floor(Math.random()*races.length)]
+        }
+        else{
+            rRace = chosenRaces[Math.floor(Math.random()*chosenRaces.length)]
+        }
+        console.log("Random race:", rRace)
     }
 
     function randomClass(){
-
+        if(!chosenClasses[0]){
+            rClass = classes[Math.floor(Math.random()*classes.length)]
+        }
+        else{
+            rClass = chosenClasses[Math.floor(Math.random()*chosenClasses.length)]
+        }
+        console.log("Random class:", rClass)
     }
+
+    function randomName(){
+        let currentRace = rRace.name
+        fullName = dndNames.firstNames[currentRace][Math.floor(Math.random()*dndNames.firstNames[currentRace].length)] + " " + dndNames.lastNames[currentRace][Math.floor(Math.random()*dndNames.lastNames[currentRace].length)]
+    }
+
 
     randomScore()
     scoreConvert()
+
 </script>
 
 <main>
     <h1>NPC-generator</h1>
+            <section class="container">
+                <div class="stats">
+                    <div style="display: flex; flex-direction:column;">
+                        {#each abilityScr as score}
+                            <div>
+                                {score.stat} {score.score}
+                            </div>
+                        {/each}
+                    </div>
+                    <div style="display: flex; flex-direction:column;">
+                        {#each abilityMod as mod}
+                            <div>
+                                {#if mod.score >= 0}
+                                    + {mod.score}
+                                    {:else}
+                                    - {Math.abs(mod.score)}
+                                {/if}
+                            </div>
+                        {/each}
+                    </div>
+                </div>
+                <div class="discription">
 
-    <section>
-        <article>
-            {#each abilityScr as score}
-                {score.stat}
-                {score.score}
-            {/each}
-            <br>
-            <br>
-            {#each abilityMod as mod}
-                {mod.stat}
-                {#if mod.score > 0}
-                    + {mod.score}
-                    {:else}
-                    - {mod.score}
-                {/if}
-            {/each}
-            <br>
-            <br>
-            {#if races != []}
-                {#each races as race}
-                    {race.name}
-                {/each} 
-            {/if}
+                </div>
+            </section>
+            <section class="info">
+                <p>Health: {classFetch[0]?classFetch[0].hit_die + abilityMod[2].score:"..."}</p>
+                <p>Race: {rRace?rRace.name:"..."}</p>
+                <p>Class: {rClass?rClass.name:"..."}</p>    
+            </section>
 
-            {#if classes != []}
-                {#each classes as Class} <!--Stort C genom att class är en redan existerande funktion i JavaScript-->
-                    {Class.name}
-                {/each} 
-            {/if}
+            <p class="AC">AC: {10 + abilityMod[1].score}</p>
+            <p class="speed">Speed: {raceFetch[0]?raceFetch[0].speed+"ft":"..."}</p>
             
-        </article>
-    </section>
+
+            <img class="img" src={rRace?pictures[rRace.name]:""} alt="NPC img">
+            <h2 class="name">Name: {fullName}</h2>
+        
+        <button on:click={()=>{
+            classFetch = []
+            raceFetch = []
+            
+            abilityMod = []
+            abilityScr = []
+
+            randomScore()
+            scoreConvert()
+            randomRace()
+            randomClass()
+            randomName()
+
+            const fetchData = async()=> {
+                raceFetch = await getInfo("races/"+rRace.index)
+                console.log("Info for race:", raceFetch)
+                console.log("Speed =", raceFetch[0].speed)
+
+                classFetch = await getInfo("classes/"+rClass.index)
+                console.log("Info for class:", classFetch)
+                console.log("Hit die =", classFetch[0].hit_die)
+
+            }; fetchData()
+
+        }} class="random">
+            Randomize
+        </button>
+
+        <button class="options" on:click={()=>{visible = "flex"}}>Options</button>
+
+        <svg width="100vw" height="100%" style="position: absolute; opacity:0.5; z-index:1; top:0; left:0; display:{visible};">
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <!-- svelte-ignore a11y-no-static-element-interactions -->
+            <rect width="100%" height="100%" style="fill:#000000;" on:click={()=>{visible = "none"}}/>
+        </svg>
+
+        <section class="optionWindow" style="display: {visible};">  
+            <h2>Classes</h2>
+                <div class="choose">
+                    {#each classes as Class}
+                        <button on:click={()=>{
+                            chosenClasses.push(Class)
+                        }}>
+                            {Class.name}
+                        </button>
+                    {/each}
+                </div>
+
+            <h2>Races</h2>
+                <div class="choose">
+                    {#each races as race}
+                        <button on:click={()=>{
+                            chosenRaces.push(race)
+                        }}>
+                            {race.name}
+                        </button>
+                    {/each}
+                </div>
+
+            <h2>Stats</h2>
+            <div style="display: flex; flex-direction:row; column-gap:10%; width:100%; text-align:center; justify-content:center;">
+                {#each ["Low", "Medium", "High"] as statLevel}
+                    <button>
+                        {statLevel}
+                    </button>
+                {/each}
+            </div>
+
+            <button on:click={()=>{
+                visible = "none"
+            }}>Done</button>
+
+            <button on:click={()=>{
+                chosenClasses = []
+                chosenRaces = []
+            }}>Reset</button>
+
+        </section>
 </main>
 
 <style>
@@ -175,12 +318,126 @@
 
         width:49vw;
         height: 100vh;
-        font-family: "Lucida Handwriting", cursive;
+        /*font-family: "Lucida Handwriting", cursive;*/
+
+        position: relative;
+        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
         color: black;
     }
 
-    article{
-        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    .stats{
+        display: flex; 
+        flex-direction:row; 
+        width: 25%;
+        justify-content: space-evenly;
+
+        border-right: solid black 2px;
+    }
+
+    .container{
+        justify-content: space-evenly;
+
+        width: 99%;
+
+        border: solid black 2px;
+
+        position: absolute;
+        top: 55%;
+        left: 0.5%;
+    }
+
+    .info{
+        position: absolute;
+
+        top: 25%;
+        left: 80%;
+    }
+
+    .info *{
+        margin-bottom: 20%;
+    }
+
+    .AC{
+        position: absolute;
+
+        top: 25%;
+        left: 8%;
+    }
+
+    .speed{
+        position: absolute;
+
+        top: 45%;
+        left: 8%;
+    }
+
+    .name{
+        position: absolute;
+
+        top: 50%;
+    }
+
+    .img{
+        position: absolute;
+
+        top: 25%;
+
+        height: 20%;
+        width: 20%;
+    }
+
+    .random{
+        position: absolute;
+        top: 85%;
+        left: 35%;
+    }
+
+    .options{
+        position: absolute;
+        top: 85%;
+        left: 65%;
+    }
+
+    .optionWindow{
+        flex-direction: column;
+        align-items: center;
+        
+        z-index:3; 
+
+        row-gap: 5%;
+
+        height:75%; 
+        width: 75%; 
+
+        left:62.5%; 
+        top:12.5%; 
+
+        padding: 5%;
+        
+        position:absolute; 
+        
+        color:white;
+        background-color: black; 
+        border: solid 1px white;
+    }
+
+    .choose{
+        display: flex; 
+        flex-direction: row; 
+        column-gap:5%; 
+        text-align:center; 
+        overflow-x: scroll; 
+        overflow-y: hidden;
+        width:100%;
+    }
+
+    .choose *:hover{
+        border: 1px solid white;
+    }
+
+    .choose *:active{
+        background-color: green;
     }
 
     h1{
@@ -188,7 +445,8 @@
 
         justify-content: center;
 
-        margin-top: 10%;
+        position: absolute;
+        top: 10%;
         
         font-size: 400%;
     }

@@ -1,0 +1,36 @@
+---
+title: Version 0.0.20
+date: "2025-05-07"
+---
+
+# Hello Again 🖐
+
+## Description
+
+There has not been much development since last time, however the NPC-generator is now almoast finished and I can soon start makeing changes for phone.
+It is starting to feel a bit like a race agaist the clock however I believe that I will be able to finish everything if I just start working more when I am not at school.
+
+## Changes
+
+The following changes and implementations have been made in this version of the project:
+
+* The NPC-generator is almoast completed with the description and some options being left.
+
+
+## New Features
+
+✅ Added speed, HP and AC and the functionality to calculate them.
+
+✅ Added random races and classes.
+
+✅ Added pictures based on the randomized race.
+
+✅ Randomized names with the help of ChatGPT
+
+<hr>
+<br>
+
+Commit: <a href="https://github.com/fyrahundra/DM_helper/commit/c7ff9e7" target="_blank">Version 0.0.18</a>
+
+Published: 2025-05-07
+

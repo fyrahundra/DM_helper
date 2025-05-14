@@ -178,5 +178,13 @@
         background-color: black;
         color: white;
     }
+
+    .note{
+        overflow: hidden;
+    }
+
+    .note:hover{
+        background-color: rgb(217, 217, 217);
+    }
 </style>
 

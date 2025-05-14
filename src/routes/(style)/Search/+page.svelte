@@ -219,7 +219,7 @@
                 Filter
             </button>
 
-            <svg width="100vw" height="100%" style="position: absolute; opacity:0.5; z-index:1; top:0; left:0; display:{visible};">
+            <svg width="100vw" height="100%" style="position: absolute; opacity:0.5; z-index:3; top:0; left:0; display:{visible};">
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                 <!-- svelte-ignore a11y-no-static-element-interactions -->
                 <rect width="100%" height="100%" style="fill:#000000;" on:click={()=>{visible = "none"}}/>
@@ -365,7 +365,7 @@
                         <h3>Cast time: {target.casting_time}</h3>
                         <br>
                         <h3>Description:</h3>
-                        <p><button on:click={() => {
+                        <p style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"><button on:click={() => {
                             descReveal = !descReveal
                         }}>{descReveal?target.desc:"..."}</button></p>
                         <br>
@@ -528,7 +528,7 @@
         flex-direction: column;
         align-items: center;
         
-        z-index:2; 
+        z-index:3; 
 
         row-gap: 10%;
 
