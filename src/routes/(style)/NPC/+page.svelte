@@ -280,6 +280,7 @@
 
         <button class="options" on:click={()=>{visible = "flex"}}>Randomizer Options</button>
 
+
         <svg width="100vw" height="100%" style="position: absolute; opacity:0.5; z-index:1; top:0; left:0; display:{visible};">
             <!-- svelte-ignore a11y-click-events-have-key-events -->
             <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -523,5 +524,87 @@
         top: 10%;
         
         font-size: 400%;
+    }
+
+
+    @media only screen and (max-width: 600px){
+        main{
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: space-around;
+            align-items: center;
+
+            text-align: center;
+
+            position: relative;
+
+            z-index:1;
+
+            width:100vw;
+            height: 100vh;
+            /*font-family: "Lucida Handwriting", cursive;*/
+
+            position: relative;
+            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+            color: black;
+        }
+
+        h1{
+            display: flex;
+
+            justify-content: center;
+
+            position: absolute;
+            top: 5%;
+            
+            font-size: 300%;
+        }
+
+        .img{
+            position: absolute;
+
+            top: 15%;
+            left: 40%;
+
+            height: 35%;
+            width: 35%;
+        }
+
+        .random{
+            position: absolute;
+            top: 85%;
+            left: 15%;
+        }
+
+        .options{
+            position: absolute;
+            top: 85%;
+            left: 45%;
+        }
+        .optionWindow{
+            flex-direction: column;
+            align-items: center;
+            
+            z-index:3; 
+
+            row-gap: 5%;
+
+            height:75%; 
+            width: 75%; 
+
+            left:15.25%; 
+            top:12.5%; 
+
+            padding: 5%;
+            
+            position:absolute; 
+            
+            color:white;
+            background-color: black; 
+            border: solid 1px white;
+        }
     }
 </style>

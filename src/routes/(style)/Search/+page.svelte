@@ -253,7 +253,7 @@
 
                     <section style="text-align: center; width:100%;">
                         <h2 >Size:</h2>
-                            <div style="width:100%; display: flex; flex-direction:row; justify-content:space-evenly;">
+                            <div class="monsterSize">
                                 {#each ["Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan"] as size}
                                     <button on:click={()=>{filterSearch(size,"sizes")}}>{size}</button>
                                 {/each}
@@ -548,6 +548,14 @@
         border: solid 1px white;
     }
 
+    .monsterSize{
+        width:100%; 
+        display: flex; 
+        flex-direction:row; 
+        justify-content:space-evenly;
+        overflow-x: scroll;
+    }
+
     /*Animationer*/
 
     @keyframes dropCard{
@@ -566,6 +574,15 @@
             font-family: "Lucida Handwriting", cursive;
             color: black;
         }
+        .header{
+            display: flex;
+
+            justify-content: center;
+
+            margin-top: 10%;
+            
+            font-size: 150%;
+        }
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
@@ -581,6 +598,29 @@
             min-width: 0;
             overflow-wrap: break-word;
             box-sizing: border-box;
+        }
+
+        .options{
+            flex-direction: column;
+            align-items: center;
+            
+            z-index:3; 
+
+            row-gap: 10%;
+
+            height:75vh; 
+            width: 75vw; 
+
+            left:15.25%; 
+            top:12.5%; 
+
+            padding: 5%;
+            
+            position:absolute; 
+            
+            color:white;
+            background-color: black; 
+            border: solid 1px white;
         }
     }
 </style>

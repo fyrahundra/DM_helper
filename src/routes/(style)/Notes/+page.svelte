@@ -54,7 +54,7 @@
     <h1 class="header">Notes</h1>
 
     <div class="titleSelect" style="display: {saveing?"flex":"none"};">
-        Select a title
+        <p>Select a title</p>
         <form on:submit={()=>{save()}}>
             <input style="color: black;" type="text" name="Title" id="Title" bind:value={title}>
         </form>
@@ -167,6 +167,9 @@
 
         flex-direction: column;
 
+        text-align: center;
+        justify-content: center;
+
         left:50%;
         top:40%;
 
@@ -185,6 +188,40 @@
 
     .note:hover{
         background-color: rgb(217, 217, 217);
+    }
+
+    @media only screen and (max-width: 600px){
+        main{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: absolute;
+
+            z-index:1;
+
+            width:100vw;
+            height: 100vh;
+            font-family: "Lucida Handwriting", cursive;
+            color: black;
+
+            row-gap: 5%;
+        }   
+        .titleSelect{
+            position: absolute;
+
+            flex-direction: column;
+
+            text-align: center;
+
+            left:0;
+            top:40%;
+
+            width: 100%;
+            height: fit-content;
+
+            background-color: black;
+            color: white;
+        }
     }
 </style>
 
