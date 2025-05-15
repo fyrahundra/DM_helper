@@ -59,4 +59,26 @@
 
         border-bottom: 2px solid black;
     }
+
+    @media only screen and (max-width: 600px){
+        main{
+            position: relative;
+
+            z-index:1;
+
+            width:100vw;
+            height: 100vh;
+            font-family: "Lucida Handwriting", cursive;
+            color: black;
+        }
+        h1{
+            display: flex;
+
+            justify-content: center;
+
+            margin-top: 10%;
+            
+            font-size: 300%;
+        }
+    }
 </style>

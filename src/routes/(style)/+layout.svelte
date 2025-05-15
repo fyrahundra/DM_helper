@@ -131,4 +131,22 @@
 		top:0%;
 	}
 
+	@media only screen and (max-width: 600px){ 
+		.book{
+			height: 100vh;
+			width: 100vw;
+
+			top: 0;
+			left: 0;
+
+			position: absolute;
+
+			border-radius: 0px 10px 10px 0px;
+			border: solid black 1px;
+		}
+		.table{
+			height: 0;
+			width: 0;
+		}
+	}
 </style>

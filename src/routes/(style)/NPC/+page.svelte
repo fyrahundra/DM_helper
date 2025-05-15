@@ -2,8 +2,11 @@
 	import { onMount } from "svelte";
 
     import { dndNames } from '$lib/data/dndNames.js';    //Alla namn är framtagna med hjälp av ChatGPT
+	import { characterDescriptions } from "$lib/data/dnd_character_descriptions.js";
+
 
     let fullName = ""
+    let Disc = ""
 
     let visible = "none"
 
@@ -48,6 +51,7 @@
             randomRace()
             randomClass()
             randomName()
+            randomDisc()
             
             raceFetch = await getInfo("races/"+rRace.index)
             console.log("Info for race:", raceFetch)
@@ -58,8 +62,19 @@
             console.log("Hit die =", classFetch[0].hit_die)
 
             console.log("Races:", races, "\nClasses", classes)
+
+            // This code is taken from https://stackoverflow.com/questions/30430540/button-change-color-when-clicked-in-html
+            let elems = document.getElementsByClassName("colorChange");
+            for (var i = 0; i < elems.length; i++) {
+            elems[i].onclick = function() {
+                let color = window.getComputedStyle(this, null)
+                            .getPropertyValue("background-color");
+                this.style.backgroundColor = color === "rgb(0, 255, 0)"?"rgb(0,0,0)":"rgb(0, 255, 0)"
+            };
+            };
         }
         fetchData()
+        
     })
 
     async function getInfo(target) {
@@ -175,9 +190,22 @@
         fullName = dndNames.firstNames[currentRace][Math.floor(Math.random()*dndNames.firstNames[currentRace].length)] + " " + dndNames.lastNames[currentRace][Math.floor(Math.random()*dndNames.lastNames[currentRace].length)]
     }
 
+    function randomDisc(){
+        let currentRace = rRace.name
+        let currentClass = rClass.name
+        let filtered = characterDescriptions.filter(discription => discription.race === currentRace)
+        console.log("Discs part 1",filtered)
+        filtered = filtered.filter(discription => discription.class === currentClass)
+        console.log("Discs part 2",filtered)
+        Disc = filtered[Math.floor(Math.random()*filtered.length)].description
+        console.log("Discs part 3",Disc)
+    }
+
 
     randomScore()
     scoreConvert()
+
+
 
 </script>
 
@@ -204,9 +232,9 @@
                         {/each}
                     </div>
                 </div>
-                <div class="discription">
-
-                </div>
+                <article class="discription">
+                    <p>{Disc}</p>
+                </article>
             </section>
             <section class="info">
                 <p>Health: {classFetch[0]?classFetch[0].hit_die + abilityMod[2].score:"..."}</p>
@@ -233,6 +261,7 @@
             randomRace()
             randomClass()
             randomName()
+            randomDisc()
 
             const fetchData = async()=> {
                 raceFetch = await getInfo("races/"+rRace.index)
@@ -249,7 +278,7 @@
             Randomize
         </button>
 
-        <button class="options" on:click={()=>{visible = "flex"}}>Options</button>
+        <button class="options" on:click={()=>{visible = "flex"}}>Randomizer Options</button>
 
         <svg width="100vw" height="100%" style="position: absolute; opacity:0.5; z-index:1; top:0; left:0; display:{visible};">
             <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -258,36 +287,51 @@
         </svg>
 
         <section class="optionWindow" style="display: {visible};">  
-            <h2>Classes</h2>
-                <div class="choose">
+            <h2>Possible Classes</h2>
+                <div class="choose snap-x">
                     {#each classes as Class}
-                        <button on:click={()=>{
-                            chosenClasses.push(Class)
+                        <button class="colorChange snap-end" on:click={(j)=>{
+                            if(chosenClasses.filter(classes => {
+                                return classes == Class
+                            }).length == 0){
+                                chosenClasses.push(Class)
+                            }
+                            else{
+                                chosenClasses.splice(j,1)
+                            }
+                            chosenClasses = chosenClasses
+                            console.log(chosenClasses.filter(classes => {
+                                return classes == Class
+                            }).length)
+                            console.log(chosenClasses)
                         }}>
                             {Class.name}
                         </button>
                     {/each}
                 </div>
 
-            <h2>Races</h2>
-                <div class="choose">
+            <h2>Possible Races</h2>
+                <div class="choose snap-x">
                     {#each races as race}
-                        <button on:click={()=>{
-                            chosenRaces.push(race)
+                        <button class="colorChange snap-end" on:click={(i)=>{
+                            if(chosenRaces.filter(races => {
+                                return races == race
+                            }).length == 0){
+                                chosenRaces.push(race)
+                            }
+                            else{
+                                chosenRaces.splice(i,1)
+                            }
+                            chosenRaces = chosenRaces
+                            console.log(chosenRaces.filter(races => {
+                                return races == race
+                            }).length)
+                            console.log(chosenRaces)
                         }}>
                             {race.name}
                         </button>
                     {/each}
                 </div>
-
-            <h2>Stats</h2>
-            <div style="display: flex; flex-direction:row; column-gap:10%; width:100%; text-align:center; justify-content:center;">
-                {#each ["Low", "Medium", "High"] as statLevel}
-                    <button>
-                        {statLevel}
-                    </button>
-                {/each}
-            </div>
 
             <button on:click={()=>{
                 visible = "none"
@@ -296,6 +340,11 @@
             <button on:click={()=>{
                 chosenClasses = []
                 chosenRaces = []
+
+                let b = document.getElementsByClassName("colorChange");
+                for(var i = 0; i < b.length; i++){
+                    b[i].style.backgroundColor = "rgb(0,0,0)"
+                }
             }}>Reset</button>
 
         </section>
@@ -333,9 +382,13 @@
         justify-content: space-evenly;
 
         border-right: solid black 2px;
+
+        background-color:rgb(255,255,255,0.7)
     }
 
     .container{
+        display: flex;
+        flex-direction: row;
         justify-content: space-evenly;
 
         width: 99%;
@@ -345,6 +398,7 @@
         position: absolute;
         top: 55%;
         left: 0.5%;
+
     }
 
     .info{
@@ -358,11 +412,31 @@
         margin-bottom: 20%;
     }
 
+    .discription{
+        display: flex; 
+        flex-direction:row; 
+        width: 75%;
+        justify-content: space-evenly;
+
+        align-items: center;
+
+        background-color: rgb(255,255,255,0.7);
+
+        text-align: center;
+        text-wrap: wrap;
+    }
+
+    .discription *{
+        width: 90%;
+    }
+
     .AC{
         position: absolute;
 
         top: 25%;
         left: 8%;
+
+        font-size: xx-large;
     }
 
     .speed{
@@ -370,21 +444,25 @@
 
         top: 45%;
         left: 8%;
+
+        font-size: larger;
     }
 
     .name{
         position: absolute;
 
         top: 50%;
+
+        font-size: large;
     }
 
     .img{
         position: absolute;
 
-        top: 25%;
+        top: 15%;
 
-        height: 20%;
-        width: 20%;
+        height: 35%;
+        width: 35%;
     }
 
     .random{
@@ -434,10 +512,6 @@
 
     .choose *:hover{
         border: 1px solid white;
-    }
-
-    .choose *:active{
-        background-color: green;
     }
 
     h1{

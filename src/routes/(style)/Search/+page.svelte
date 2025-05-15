@@ -16,7 +16,7 @@
 
     let orgFull = []
 
-    let selector = "monsters"
+    let selector = "spells"
 
     let info
 
@@ -219,7 +219,7 @@
                 Filter
             </button>
 
-            <svg width="100vw" height="100%" style="position: absolute; opacity:0.5; z-index:3; top:0; left:0; display:{visible};">
+            <svg width="100vw" height="100vh" style="position: absolute; opacity:0.5; z-index:3; top:0; left:0; display:{visible};">
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                 <!-- svelte-ignore a11y-no-static-element-interactions -->
                 <rect width="100%" height="100%" style="fill:#000000;" on:click={()=>{visible = "none"}}/>
@@ -505,6 +505,7 @@
         text-align: center;
     }
 
+
     .grid > * {
         max-height: 100%;
     }
@@ -554,4 +555,32 @@
         100%{transform: scale(1.0)}
     }
 
+    @media only screen and (max-width: 600px){
+        main{
+            position: absolute;
+
+            z-index:1;
+
+            width:100vw;
+            height: 100vh;
+            font-family: "Lucida Handwriting", cursive;
+            color: black;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            width: 100%;
+            gap: 10px;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .grid > * {
+            width: 100%;
+            min-width: 0;
+            overflow-wrap: break-word;
+            box-sizing: border-box;
+        }
+    }
 </style>
